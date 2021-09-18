@@ -28,7 +28,7 @@
             <thead>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.InstituicaoID)
+                        @Html.DisplayNameFor(model => model.InstituicaoId)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.Nome)
@@ -44,7 +44,7 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.InstituicaoID)
+                            @Html.DisplayFor(modelItem => item.InstituicaoId)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Nome)
@@ -53,9 +53,9 @@
                             @Html.DisplayFor(modelItem => item.Endereco)
                         </td>
                         <td>
-                            <a asp-action="Edit" asp-route-id="@item.InstituicaoID">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.InstituicaoID">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.InstituicaoID">Delete</a>
+                            <a asp-action="Edit" asp-route-id="@item.InstituicaoId">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.InstituicaoId">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.InstituicaoId">Delete</a>
                         </td>
                     </tr>
                 }

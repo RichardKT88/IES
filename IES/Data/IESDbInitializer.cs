@@ -1,8 +1,5 @@
 ﻿using IES.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace IES.Data
 {
@@ -10,10 +7,12 @@ namespace IES.Data
     {
         public static void Initialize(IESContext context)
         {
+            context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
 
-            PopulaDepartamento(context);
             PopulaInstituicao(context);
+            PopulaDepartamento(context);
+            
         }
 
         private static void PopulaDepartamento(IESContext context)
@@ -25,8 +24,8 @@ namespace IES.Data
 
             var departamentos = new Departamento[]
             {
-                new Departamento {Nome="Ciência da Computação"},
-                new Departamento {Nome="Ciência de Alimentos"}
+                new Departamento {Nome="Ciência da Computação", InstituicaoId=1 },
+                new Departamento {Nome="Ciência de Alimentos", InstituicaoId=5 }
             };
 
             foreach (Departamento d in departamentos)

@@ -28,11 +28,11 @@
             <thead>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.DepartamentoId)
+                        @Html.DisplayNameFor(model => model.Nome)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Nome)
-                    </th>                   
+                        @Html.DisplayNameFor(model => model.Instituicao.Nome)
+                    </th>
                     <th></th>
                 </tr>
             </thead>
@@ -41,11 +41,11 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.DepartamentoId)
+                            @Html.DisplayFor(modelItem => item.Nome)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Nome)
-                        </td>                       
+                            @Html.DisplayFor(modelItem => item.Instituicao.Nome)
+                        </td>
                         <td>
                             <a asp-action="Edit" asp-route-id="@item.DepartamentoId">Edit</a> |
                             <a asp-action="Details" asp-route-id="@item.DepartamentoId">Details</a> |
@@ -60,7 +60,6 @@
         <a asp-action="Create" class="btn-success">Criar um novo departamento</a>
     </div>
 </div>
-
 
 @section ScriptPage {
     <environment include="Development">

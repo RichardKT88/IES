@@ -32,7 +32,7 @@ namespace IES.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind("InstituicaoID, Nome, Endereco")]Instituicao instituicao) 
+        public async Task<ActionResult> Create([Bind("InstituicaoId, Nome, Endereco")]Instituicao instituicao) 
         {
             try
             {
@@ -70,9 +70,9 @@ namespace IES.Controllers
         // POST: Instituicao/Edit/5        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long? id, [Bind("InstituicaoID,Nome,Endereco")] Instituicao instituicao)
+        public async Task<IActionResult> Edit(long? id, [Bind("InstituicaoId, Nome, Endereco")] Instituicao instituicao)
         {
-            if (id != instituicao.InstituicaoID)
+            if (id != instituicao.InstituicaoId)
             {
                 return NotFound();
             }
@@ -86,7 +86,7 @@ namespace IES.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!InstituicaoExists(instituicao.InstituicaoID))
+                    if (!InstituicaoExists(instituicao.InstituicaoId))
                     {
                         return NotFound();
                     }
@@ -110,7 +110,7 @@ namespace IES.Controllers
             }
 
             var instituicao = await _context.Instituicoes
-                .FirstOrDefaultAsync(m => m.InstituicaoID == id);
+                .FirstOrDefaultAsync(m => m.InstituicaoId == id);
             if (instituicao == null)
             {
                 return NotFound();
@@ -128,7 +128,7 @@ namespace IES.Controllers
             }
 
             var instituicao = await _context.Instituicoes
-                .FirstOrDefaultAsync(m => m.InstituicaoID == id);
+                .FirstOrDefaultAsync(m => m.InstituicaoId == id);
             if (instituicao == null)
             {
                 return NotFound();
@@ -150,7 +150,7 @@ namespace IES.Controllers
         }
         private bool InstituicaoExists(long? id)
         {
-            return _context.Instituicoes.Any(e => e.InstituicaoID == id);
+            return _context.Instituicoes.Any(e => e.InstituicaoId == id);
         }
     }
 }

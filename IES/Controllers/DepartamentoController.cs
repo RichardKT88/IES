@@ -1,9 +1,8 @@
 ﻿using IES.Data;
 using IES.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,18 +19,21 @@ namespace IES.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Departamentos.OrderBy(c => c.Nome).ToListAsync());
+            return View(await _context.Departamentos.Include(i => i.Instituicao).OrderBy(c => c.Nome).ToListAsync());
         }
 
         //GET : Departamento/Create
         public IActionResult Create() 
         {
+            var instituicoes = _context.Instituicoes.OrderBy(i => i.Nome).ToList();
+            instituicoes.Insert(0, new Instituicao() { InstituicaoId = 0, Nome = "Selecione a instituição" });
+            ViewBag.Instituicoes = instituicoes;
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Nome")] Departamento departamento)
+        public async Task<IActionResult> Create([Bind("Nome, InstituicaoId")] Departamento departamento)
         {
             try
             {
@@ -59,17 +61,20 @@ namespace IES.Controllers
             }
 
             var departamento = await _context.Departamentos.SingleOrDefaultAsync(m => m.DepartamentoId == id);
+
             if (departamento == null)
             {
                 return NotFound();
             }
+
+            ViewBag.Instituicoes = new SelectList(_context.Instituicoes.OrderBy(b => b.Nome), "InstituicaoId", "Nome", departamento.InstituicaoId);
 
             return View(departamento);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long? id, [Bind("DepartamentoId, Nome")] Departamento departamento) 
+        public async Task<IActionResult> Edit(long? id, [Bind("DepartamentoId, Nome, InstituicaoId")] Departamento departamento) 
         {
             if (id != departamento.DepartamentoId )
             {
@@ -96,6 +101,8 @@ namespace IES.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewBag.Instituicoes = new SelectList(_context.Instituicoes.OrderBy(b => b.Nome), "InstituicaoId", "Nome", departamento.InstituicaoId);
             return View(departamento);
         }
 
@@ -112,6 +119,7 @@ namespace IES.Controllers
             }
 
             var departamento = await _context.Departamentos.SingleOrDefaultAsync(m => m.DepartamentoId == id);
+            _context.Instituicoes.Where(i => departamento.InstituicaoId == i.InstituicaoId).Load();
 
             if (departamento == null)
             {
@@ -130,6 +138,7 @@ namespace IES.Controllers
             }
 
             var departamento = await _context.Departamentos.SingleOrDefaultAsync(m => m.DepartamentoId == id);
+            _context.Instituicoes.Where(i => departamento.InstituicaoId == i.InstituicaoId).Load();
 
             if (departamento == null)
             {
@@ -146,6 +155,7 @@ namespace IES.Controllers
         {
             var departamento = await _context.Departamentos.SingleOrDefaultAsync(m => m.DepartamentoId == id);
             _context.Departamentos.Remove(departamento);
+            TempData["Messsage"] = "Departamento " + departamento.Nome.ToUpper() + " foi removido";
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
